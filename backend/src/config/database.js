@@ -1,26 +1,33 @@
 const mongodb = require("mongodb")
 const dotenv = require("dotenv")
-// import RestaurantsDAO from "./dao/restaurantsDAO.js"
-// import ReviewsDAO from "./dao/reviewsDAO.js"
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 dotenv.config()
 const MongoClient = mongodb.MongoClient
+const url = process.env.ATLAS_URI
 
 let _db;
+let _sessionStore = new MongoDBStore({
+    uri: url,
+    databaseName: 'propertyDB',
+    collection: 'mySessions'
+});
 
-const mongoConnect = (callback) => {
-    MongoClient.connect(
-        process.env.ATLAS_URI,
-        {
-            maxPoolSize:50,
-            wtimeoutMS:2500,
-            useNewUrlParser:true
-        }
+// Catch errors
+_sessionStore.on('error', (error) => {
+    console.log(error);
+});
+
+const mongoConnect = async () => {
+    await MongoClient.connect(
+        url,
+        {maxPoolSize:50, wtimeoutMS:2500, useNewUrlParser:true}
     )
         .then(client => {
             // await RestaurantsDAO.injectDB(client)
             // await ReviewsDAO.injectDB(client)
-            _db = client.db('property');
-            callback();
+            _db = client.db('propertyDB');
         })
         .catch(error => {
             console.log(error);
@@ -37,4 +44,12 @@ const getDB = () => {
     }
 }
 
-module.exports = {getDB, mongoConnect};
+const getSessionStore = () => {
+    if (_sessionStore) {
+        return _sessionStore;
+    } else {
+        throw new Error('Session store connection failed');
+    }
+}
+
+module.exports = {getDB, mongoConnect, getSessionStore};

@@ -5,17 +5,18 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
-  "author": "Dmytry, Niall, Manvinderjit, Jino",
+  "author": "Dmytro, Niall, Manvinderjit, Jino",
   "license": "ISC",
   "dependencies": {
+    "connect-mongodb-session": "^3.1.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "nodemon": "^2.0.13"
-  },
-  "devDependencies": {
-    "cors": "^2.8.5",
+    "express-session": "^1.17.2",
+    "nodemon": "^2.0.13",
     "mongodb": "^4.1.2"
   }
 }
