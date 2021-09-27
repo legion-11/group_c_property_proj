@@ -2,13 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const {mongoConnect, getSessionStore} = require("./src/config/database");
 const dotenv = require("dotenv")
+
 dotenv.config()
 
 const app = express()
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
+/**
+ * -------------- SESSION SETUP ----------------
+ */
 app.use(require('express-session')({
     secret: process.env.SECRET,
     cookie: {
@@ -22,19 +27,23 @@ app.use(require('express-session')({
     saveUninitialized: true
 }));
 
-app.get('/', (req, res) => {
-    req.session.count = req.session.count ? ++req.session.count :  1
-    res.send('Hello ' + JSON.stringify(req.session));
-});
+const port = process.env.SERVER_PORT || 3000
+mongoConnect()
+    .then(() => {
+        const passport = require('passport');
+        const routes = require('./src/routes');
 
+        require('./src/config/passport');
+        app.use(passport.initialize());
+        app.use(passport.session());
 
-app.use("*", (req, res) => res.status(404).json({ error: "not found"}))
+        app.use(routes);
 
-const port = process.env.SERVER_PORT || 8001
-mongoConnect().then(() => {
-    app.listen(port, () => {
-        console.log(`App listening at http://localhost:${port}`)
+        app.use("*", (req, res) => res.status(404).json({ error: "not found"}))
+
+        app.listen(port, () => {
+            console.log(`App listening at http://localhost:${port}`)
+        })
+    }).catch((err) => {
+        console.log(err)
     })
-}).catch((err) => {
-    console.log(err)
-})
