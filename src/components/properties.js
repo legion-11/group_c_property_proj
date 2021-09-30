@@ -61,6 +61,7 @@ const PropertiesList = props => {
                   <p className="card-text">
                     <font size="+2"><strong>Address:</strong></font> {address}<br/>
                     <strong>Description: </strong>{property.description}<br/>
+                    <strong>Contact Number: </strong>{property.contactNumber}<br/>
                     <strong>Price: </strong>{property.price}<br/>
                   </p>
                   <div className="row">

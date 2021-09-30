@@ -23,6 +23,7 @@ const AddPropertyForm = props => {
     if (form.checkValidity()) {
       add()
     }
+    event.preventDefault();
   };
 
   const initialPropertyState = props.property || {
@@ -45,14 +46,16 @@ const AddPropertyForm = props => {
         if (response.data.success) {
           let setter;
           if (type === PropertiesDataService.types.forSale)  {
-            setter = PropertiesDataService.setForRent({price: price, propertyId: response.data.result.insertedId})
-          } else if (type === PropertiesDataService.types.forRent)  {
             setter = PropertiesDataService.setForSale({price: price, propertyId: response.data.result.insertedId})
+          } else if (type === PropertiesDataService.types.forRent)  {
+            setter = PropertiesDataService.setForRent({price: price, propertyId: response.data.result.insertedId})
           }
           if(setter) {
             setter.then((response)=> {
                 if (!response.data.success) {
                   alert(response.data.msg)
+                } else {
+                  props.history.push('/transactions');
                 }
             })
               .catch((e)=> {alert(e.message)})
@@ -61,7 +64,6 @@ const AddPropertyForm = props => {
         } else {alert(response.data.msg)}
       })
       .catch((e)=> {alert(e.message)})
-    props.history.push('/');
   }
 
   const handleInputChange = event => {
@@ -70,116 +72,136 @@ const AddPropertyForm = props => {
   };
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" >
-        <Form.Label>Zipcode</Form.Label>
-        <Form.Control
-          type="text"
-          className="form-control"
-          id="zipcode"
-          required
-          value={property.zipcode}
-          onChange={handleInputChange}
-          name="zipcode"
-        />
-        <Form.Control.Feedback type="invalid">
-          Not filled.
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" >
-        <Form.Label>City</Form.Label>
-        <Form.Control
-          type="text"
-          className="form-control"
-          id="city"
-          required
-          value={property.city}
-          onChange={handleInputChange}
-          name="city"
-        />
-        <Form.Control.Feedback type="invalid">
-          Not filled.
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" >
-        <Form.Label>Country</Form.Label>
-        <Form.Control
-          type="text"
-          className="form-control"
-          id="country"
-          required
-          value={property.country}
-          onChange={handleInputChange}
-          name="country"
-        />
-        <Form.Control.Feedback type="invalid">
-          Not filled.
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" >
-        <Form.Label>Apartment Number (if applicable)</Form.Label>
-        <Form.Control
-          type="text"
-          className="form-control"
-          id="apartmentNumber"
-          value={property.apartmentNumber}
-          onChange={handleInputChange}
-          name="apartmentNumber"
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-3" >
-        <FloatingLabel
-          controlId="floatingTextarea2"
-          label="Description"
-        >
+    <div className="w-50 " >
+      <div className="card">
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" >
+          <Form.Label>Zipcode</Form.Label>
           <Form.Control
             type="text"
             className="form-control"
-            id="description"
-            value={property.description}
+            id="zipcode"
+            required
+            value={property.zipcode}
             onChange={handleInputChange}
-            name="description"
-            as="textarea"
-            placeholder="Leave a comment here"
-            style={{ height: '100px' }}
+            name="zipcode"
           />
-        </FloatingLabel>
-      </Form.Group>
+          <Form.Control.Feedback type="invalid">
+            Not filled.
+          </Form.Control.Feedback>
+        </Form.Group>
 
+        <Form.Group className="mb-3" >
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            type="text"
+            className="form-control"
+            id="city"
+            required
+            value={property.city}
+            onChange={handleInputChange}
+            name="city"
+          />
+          <Form.Control.Feedback type="invalid">
+            Not filled.
+          </Form.Control.Feedback>
+        </Form.Group>
 
-      <Form.Group className="mb-3" >
-        <FloatingLabel controlId="floatingSelect" label="Type">
-          <Form.Select aria-label="Floating label select example"
-            onChange={(e)=> {setType(parseInt(e.target.value))}}
+        <Form.Group className="mb-3" >
+          <Form.Label>Country</Form.Label>
+          <Form.Control
+            type="text"
+            className="form-control"
+            id="country"
+            required
+            value={property.country}
+            onChange={handleInputChange}
+            name="country"
+          />
+          <Form.Control.Feedback type="invalid">
+            Not filled.
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+          <Form.Label>Contact Number</Form.Label>
+          <Form.Control
+            type="text"
+            className="form-control"
+            id="contactNumber"
+            required
+            value={property.contactNumber}
+            onChange={handleInputChange}
+            name="contactNumber"
+          />
+          <Form.Control.Feedback type="invalid">
+            Not filled.
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+          <Form.Label>Apartment Number (if applicable)</Form.Label>
+          <Form.Control
+            type="text"
+            className="form-control"
+            id="apartmentNumber"
+            value={property.apartmentNumber}
+            onChange={handleInputChange}
+            name="apartmentNumber"
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+          <FloatingLabel
+            controlId="floatingTextarea2"
+            label="Description"
           >
-            <option value={PropertiesDataService.types.notForSaleOrRent}>Not For Rent or Sale</option>
-            <option value={PropertiesDataService.types.forRent}>For Rent</option>
-            <option value={PropertiesDataService.types.forSale}>For Sale</option>
-          </Form.Select>
-        </FloatingLabel>
-      </Form.Group>
+            <Form.Control
+              type="text"
+              className="form-control"
+              id="description"
+              value={property.description}
+              onChange={handleInputChange}
+              name="description"
+              as="textarea"
+              placeholder="Leave a comment here"
+              style={{ height: '100px' }}
+            />
+          </FloatingLabel>
+        </Form.Group>
 
-      <Form.Group className="mb-3" >
-        <Form.Label>Price CAD</Form.Label>
-        <Form.Control
-          type="number"
-          className="form-control"
-          id="price"
-          value={price}
-          onChange={(event)=>setPrice(event.target.value)}
-          disabled={parseInt(type)===PropertiesDataService.types.notForSaleOrRent}
-          name="price"
-        />
-      </Form.Group>
 
-      <Button variant="primary" type="submit" >
-        Submit
-      </Button>
-    </Form>
+        <Form.Group className="mb-3" >
+          <FloatingLabel controlId="floatingSelect" label="Type">
+            <Form.Select aria-label="Floating label select example"
+                         onChange={(e)=> {setType(parseInt(e.target.value))}}
+            >
+              <option value={PropertiesDataService.types.forSale}>For Sale</option>
+              <option value={PropertiesDataService.types.forRent}>For Rent</option>
+            </Form.Select>
+          </FloatingLabel>
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+          <Form.Label>Price CAD</Form.Label>
+          <Form.Control
+            type="number"
+            className="form-control"
+            id="price"
+            value={price}
+            onChange={(event)=>setPrice(event.target.value)}
+            disabled={parseInt(type)===PropertiesDataService.types.notForSaleOrRent}
+            name="price"
+          />
+        </Form.Group>
+
+        <Button variant="primary" type="submit" >
+          Submit
+        </Button>
+      </Form>
+      </div>
+    </div>
+
   )
 }
 

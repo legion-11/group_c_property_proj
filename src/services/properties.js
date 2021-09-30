@@ -31,6 +31,10 @@ class PropertiesDataService {
   getPropertyById(id){
     return http.get(`/property/${id}`,  { withCredentials: true })
   }
+
+  buyProperty(id){
+    return http.post(`/buyProperty`,  {propertyId: id},{ withCredentials: true })
+  }
 }
 
 

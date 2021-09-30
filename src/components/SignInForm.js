@@ -15,7 +15,6 @@ export default function SignInForm({setUser, switchType}) {
             password: f.querySelector("input[name=password]").value,
         }
         const res = await UserDataService.signIn(data);
-        alert(JSON.stringify(res));
         setUser(res.data.user);
         history.push("/properties")
     }

@@ -23,6 +23,20 @@ const TransactionsList = props => {
         });
     };
 
+    const typeToString=(t)=>{
+      if (t === 0) {
+        return "Created"
+      } else if (t === 1) {
+        return "Set For Sale"
+      } else if (t === 2) {
+        return "Buy"
+      } else if (t === 3) {
+        return "Set For Rent"
+      }else if (t === 4) {
+        return "Rented"
+      }
+  }
+
     return (
     <div className="row">
       <h5 className="card-title">Transaction List</h5>
@@ -32,12 +46,13 @@ const TransactionsList = props => {
                              
                   <p className="card-text">                      
                     <font size="+2"><strong>Transaction ID: </strong></font>{transaction._id}<br/>
-                    <strong>Transaction Type: </strong>{transaction.type}<br/>
+                    <strong>Transaction Type: </strong>{transaction.type} {typeToString(transaction.type)}<br/>
                     <strong>Owner ID: </strong>{transaction.ownerId}<br/>
                     <strong>Property ID: </strong>{transaction.propertyId}<br/>
                     <strong>Nonce: </strong>{transaction.nonce}<br/>
                     <strong>Previous Hash: </strong>{transaction.previousHash}<br/>
-                    <strong>Hash: </strong>{transaction.hash}<br/>                   
+                    <strong>Hash: </strong>{transaction.hash}<br/>
+                    <strong>Buyer: </strong>{transaction.buyerId}<br/>
                   </p>
 
                 </div>

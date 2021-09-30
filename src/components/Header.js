@@ -17,6 +17,7 @@ export default function Header({user, logout}) {
                 {
                   user ? (
                     <Nav>
+                      <Button variant="outline-success">{user._id}</Button>
                       <NavDropdown title={user.firstname} id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">My property</NavDropdown.Item>
                         <NavDropdown.Item href="/addProperty">Add property</NavDropdown.Item>
