@@ -23,6 +23,10 @@ class PropertiesDataService {
   setForSale(data){
     return  http.put("/setPropertyForSale", data, { withCredentials: true })
   }
+
+  getPropertyById(id){
+    return http.get(`/property/${id}`,  { withCredentials: true })
+  }
 }
 
 export default new PropertiesDataService();

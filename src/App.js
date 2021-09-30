@@ -4,7 +4,7 @@ import {useState} from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
 
 import UserDataService from './services/user'
-import Property from"./Pages/Property";
+import ViewProperty from"./components/property";
 import PropertiesList from "./components/properties";
 import AddProperty from "./components/addProperty";
 import Error from "./Pages/404";
@@ -77,6 +77,12 @@ function App() {
               path="/addProperty"
               render={(props) => (
                 <AddProperty {...props} user={user}/>
+              )}
+            />
+            <Route
+              path="/property/:id"
+              render={(props) => (
+                <ViewProperty {...props} user={user}/>
               )}
             />
             <Route

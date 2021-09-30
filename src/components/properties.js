@@ -64,7 +64,7 @@ const PropertiesList = props => {
                     <strong>Price: </strong>{property.price}<br/>
                   </p>
                   <div className="row">
-                    <Link to={"/properties/" + property._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                    <Link to={"/property/" + property._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                       View
                     </Link>
                     <a target="_blank" href={"https://www.google.com/maps/place/" + address}
