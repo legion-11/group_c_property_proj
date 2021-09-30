@@ -65,10 +65,10 @@ const PropertiesList = props => {
                   </p>
                   <div className="row">
                     <Link to={"/properties/" + property._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-                      View History
+                      View
                     </Link>
                     <a target="_blank" href={"https://www.google.com/maps/place/" + address}
-                       className="btn btn-primary col-lg-5 mx-1 mb-1">View Map</a>
+                       className="btn btn-primary col-lg-5 mx-1 mb-1">Map</a>
                   </div>
                 </div>
               </div>

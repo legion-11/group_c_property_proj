@@ -1,14 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Nav, Navbar, Row, Col, Button, NavDropdown} from 'react-bootstrap'
-import {useEffect, useState} from "react";
 import {useState} from "react";
-import {Route, Switch, BrowserRouter, Redirect} from "react-router-dom";
-import SignIn from "./components/signIn";
-import Error from "./components/404";
+import {Route, Switch, Redirect} from "react-router-dom";
+
 import UserDataService from './services/user'
-import SignUp from "./components/signUp";
+import Property from"./Pages/Property";
 import PropertiesList from "./components/properties";
 import AddProperty from "./components/addProperty";
+import Error from "./Pages/404";
+import Landing from "./Pages/Landing";
+import Header from "./components/Header";
 
 // Hook
 function useLocalStorage(key, initialValue) {
@@ -44,41 +45,10 @@ function useLocalStorage(key, initialValue) {
   };
   return [storedValue, setValue];
 }
-// Services
-import UserDataService from './services/user';
-// Components
-import SignIn from "./Pages/SignIn";
-import Error from "./Pages/404";
-import SignUp from "./Pages/SignUp";
-import Landing from "./Pages/Landing";
-import Property from "./Pages/Property";
-import Header from "./components/Header";
 
 function App() {
 
   const [user, setUser] = useLocalStorage("user", null);
-
-  async function signUp(formData = null) {
-    UserDataService.signUp(formData)
-      .then((response) => {
-        if (!response.data.success) {alert(response.data.msg)}
-      })
-      .catch((e) => {
-        alert(e.message)
-      })
-  }
-
-  async function login(formData = null) {
-    UserDataService.signIn(formData)
-      .then((response) => {
-        if (response.data.success) {
-          setUser(response.data.user)
-        } else {alert(response.data.msg)}
-      })
-      .catch((e) => {
-        alert(e.message)
-      })
-  }
 
   async function logout() {
     UserDataService.signOut()
@@ -93,67 +63,16 @@ function App() {
   return (
       <div className="App">
         <Header user={user} logout={logout}/>
-        <header className="header">
-          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand href="/">Property Chain Project</Navbar.Brand>
-              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">
-                  <Nav.Link href="/properties">View Properties</Nav.Link>
-                  <Nav.Link href="/transactions">View All Transactions</Nav.Link>
-                </Nav>
-                {
-                  user ? (
-                    <Nav>
-                      <NavDropdown title={user.firstname} id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">My property</NavDropdown.Item>
-                        <NavDropdown.Item href="/addProperty">Add property</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Personal Info</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={logout}>Sign Out</NavDropdown.Item>
-                      </NavDropdown>
-                    </Nav>
-                  ) : (
-                    <Nav>
-                      <Nav.Link href="/signUp" font-size-sm >Sign Up</Nav.Link>
-                      <Button variant="outline-success" href="/signIn">Sign In</Button>
-                    </Nav>
-                  )
-                }
-
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        </header>
 
         <div className="container mt-3">
           <Switch>
             <Route exact path="/">
               <Landing setUser={setUser}/>
             </Route>
-            <Route exact path="/properties">
-              <Property/>
-            </Route>
-            <Route exact path={["/", "/properties"]} component={PropertiesList} />
-            {/*<Route*/}
-            {/*    path="/properties/:id"*/}
-            {/*    render={(props) => (*/}
-            {/*        <AddReview {...props} user={user} />*/}
-            {/*    )}*/}
-            {/*/>*/}
-            <Route
-              path="/signIn"
-              render={(props) => (
-                <SignIn {...props} login={login}/>
-              )}
-            />
-            <Route
-              path="/signUp"
-              render={(props) => (
-                <SignUp {...props} signUp={signUp}/>
-              )}
-            />
+            {/*<Route exact path="/properties">*/}
+            {/*  <Property/>*/}
+            {/*</Route>*/}
+            <Route path="/properties" component={PropertiesList} />
             <Route
               path="/addProperty"
               render={(props) => (

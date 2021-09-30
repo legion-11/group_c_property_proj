@@ -3,6 +3,7 @@ import {Container, Nav, Navbar, Button, NavDropdown} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 export default function Header({user, logout}) {
+
     return (
           <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
             <Container>
@@ -18,6 +19,7 @@ export default function Header({user, logout}) {
                     <Nav>
                       <NavDropdown title={user.firstname} id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">My property</NavDropdown.Item>
+                        <NavDropdown.Item href="/addProperty">Add property</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Personal Info</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item onClick={logout}>Sign Out</NavDropdown.Item>
@@ -25,8 +27,6 @@ export default function Header({user, logout}) {
                     </Nav>
                   ) : (
                     <Nav>
-                      {/* <Nav.Link href="/signUp" font-size-sm="" >Sign Up</Nav.Link> */}
-                      
                       <Link to="/"><Button variant="outline-success">Sign In</Button></Link>
                     </Nav>
                   )

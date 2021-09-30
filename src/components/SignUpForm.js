@@ -17,7 +17,12 @@ export default function SignUpForm(props) {
             password: f.querySelector("input[name=password]").value,
         }
         const res = await UserDataService.signUp(data);
-        setStatus("success");
+        if (res.data.success){
+            setStatus("success");
+        } else {
+            alert(res.data.msg)
+            setStatus("active");
+        }
     }
 
     const toggleFormType = e => {

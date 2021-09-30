@@ -11,11 +11,12 @@ export default function SignInForm({setUser, switchType}) {
         e.preventDefault();
         const f = document.getElementById("form-signin");
         const data = {
-            email: f.querySelector("input[name=email]").value,
+          username: f.querySelector("input[name=username]").value,
             password: f.querySelector("input[name=password]").value,
         }
         const res = await UserDataService.signIn(data);
-        setUser(res);
+        alert(JSON.stringify(res.data))
+        setUser(res.data.user);
         history.push("/")
     }
 
@@ -28,7 +29,7 @@ export default function SignInForm({setUser, switchType}) {
         <Form autoComplete="off" id="form-signin" className="p-4 p-md-5 pt-md-2 border rounded-3 bg-light" onSubmit={handleSignInSubmit}>
             <h3 className="text-center pb-2">Sign In</h3>
             <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3" >
-                <Form.Control type="email" name="email" placeholder="name@example.com" />
+                <Form.Control type="email" name="username" placeholder="name@example.com" />
             </FloatingLabel>
             <FloatingLabel controlId="floatingPassword" label="Password" className="mb-3">
                 <Form.Control type="password" name="password" placeholder="Password" />
