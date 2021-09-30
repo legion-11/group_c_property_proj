@@ -1,8 +1,7 @@
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Nav, Navbar, Row, Col, Button, NavDropdown} from 'react-bootstrap'
 import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Route, Switch, BrowserRouter, Redirect} from "react-router-dom";
 import SignIn from "./components/signIn";
 import Error from "./components/404";
@@ -45,6 +44,15 @@ function useLocalStorage(key, initialValue) {
   };
   return [storedValue, setValue];
 }
+// Services
+import UserDataService from './services/user';
+// Components
+import SignIn from "./Pages/SignIn";
+import Error from "./Pages/404";
+import SignUp from "./Pages/SignUp";
+import Landing from "./Pages/Landing";
+import Property from "./Pages/Property";
+import Header from "./components/Header";
 
 function App() {
 
@@ -84,6 +92,7 @@ function App() {
 
   return (
       <div className="App">
+        <Header user={user} logout={logout}/>
         <header className="header">
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -120,6 +129,12 @@ function App() {
 
         <div className="container mt-3">
           <Switch>
+            <Route exact path="/">
+              <Landing setUser={setUser}/>
+            </Route>
+            <Route exact path="/properties">
+              <Property/>
+            </Route>
             <Route exact path={["/", "/properties"]} component={PropertiesList} />
             {/*<Route*/}
             {/*    path="/properties/:id"*/}
