@@ -8,6 +8,7 @@ import SignIn from "./components/signIn";
 import Error from "./components/404";
 import UserDataService from './services/user'
 import SignUp from "./components/signUp";
+import PropertiesList from "./components/properties";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -81,7 +82,7 @@ function App() {
 
         <div className="container mt-3">
           <Switch>
-            {/*<Route exact path={["/", "/properties"]} component={PropertiesList} />*/}
+            <Route exact path={["/", "/properties"]} component={PropertiesList} />
             {/*<Route*/}
             {/*    path="/properties/:id"*/}
             {/*    render={(props) => (*/}
