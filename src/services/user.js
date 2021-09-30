@@ -3,7 +3,7 @@ import http from "../http-common";
 class UserDataService {
 
   signIn(data) {
-    return http.post(`/signIn`, data);
+    return http.post(`/signIn`, data, { withCredentials: true });
   }
 
   signUp(data) {

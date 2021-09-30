@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import PropertiesDataService from '../services/properties'
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 const PropertiesList = props => {
 
   const [properties, setProperties] = useState([]);
   const [type, setType] = useState(PropertiesDataService.types.forSale);
+
   useEffect(() => {
     retrieveProperties(type)
   }, [type]);
@@ -58,12 +59,9 @@ const PropertiesList = props => {
                 <div className="card-body">
                   <h5 className="card-title">{property.name}</h5>
                   <p className="card-text">
-                    <strong>Address: </strong>{address}<br/>
+                    <font size="+2"><strong>Address:</strong></font> {address}<br/>
                     <strong>Description: </strong>{property.description}<br/>
                     <strong>Price: </strong>{property.price}<br/>
-                    {
-
-                    }
                   </p>
                   <div className="row">
                     <Link to={"/properties/" + property._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
@@ -82,3 +80,5 @@ const PropertiesList = props => {
   )
 }
 export default PropertiesList;
+
+
