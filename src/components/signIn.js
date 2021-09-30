@@ -33,7 +33,7 @@ const SignIn = props => {
     props.history.push('/');
   }
 
-  function validateForm() {
+  function formNotEmpty() {
     return user.username.length > 0 && user.password.length > 0;
   }
 
@@ -71,7 +71,7 @@ const SignIn = props => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="submit" disabled={!validateForm()}>
+      <Button variant="primary" type="submit" disabled={!formNotEmpty()}>
         Submit
       </Button>
     </Form>

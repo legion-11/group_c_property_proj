@@ -12,6 +12,17 @@ import SignUp from "./components/signUp";
 function App() {
   const [user, setUser] = useState(null);
 
+
+  async function signUp(formData = null) {
+    UserDataService.signUp(formData)
+      .then((response) => {
+        if (!response.data.success) {alert(response.data.msg)}
+      })
+      .catch((e) => {
+        alert(e.message)
+      })
+  }
+
   async function login(formData = null) {
     UserDataService.signIn(formData)
       .then((response) => {
@@ -86,7 +97,7 @@ function App() {
             <Route
               path="/signUp"
               render={(props) => (
-                <SignUp {...props} />
+                <SignUp {...props} signUp={signUp}/>
               )}
             />
             <Route
