@@ -25,7 +25,7 @@ class PropertiesDataService {
   }
 
   getTransactionsAll(){
-    return http.get(`/getTransactions`);
+    return http.get(`/getAllTransactions`);
   }
 
   getPropertyById(id){

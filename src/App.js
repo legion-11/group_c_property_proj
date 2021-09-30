@@ -10,6 +10,7 @@ import AddProperty from "./components/addProperty";
 import Error from "./Pages/404";
 import Landing from "./Pages/Landing";
 import Header from "./components/Header";
+import TransactionsList from "./components/transactions";
 
 // Hook
 function useLocalStorage(key, initialValue) {
@@ -83,6 +84,12 @@ function App() {
               path="/property/:id"
               render={(props) => (
                 <ViewProperty {...props} user={user}/>
+              )}
+            />
+            <Route
+              path="/transactions"
+              render={(props) => (
+                <TransactionsList {...props} user={user}/>
               )}
             />
             <Route
