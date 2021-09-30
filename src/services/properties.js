@@ -28,6 +28,9 @@ class PropertiesDataService {
     return http.get(`/getTransactions`);
   }
 
+  getPropertyById(id){
+    return http.get(`/property/${id}`,  { withCredentials: true })
+  }
 }
 
 
