@@ -23,6 +23,13 @@ class PropertiesDataService {
   setForSale(data){
     return  http.put("/setPropertyForSale", data, { withCredentials: true })
   }
+
+  getTransactionsAll(){
+    return http.get(`/getTransactions`);
+  }
+
 }
+
+
 
 export default new PropertiesDataService();
