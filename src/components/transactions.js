@@ -44,14 +44,14 @@ const TransactionsList = props => {
         {
           transactions.reverse().map((transaction) => (
                 <ListGroup.Item className="card-text">
-                  <strong>Transaction ID: {transaction._id}</strong>
+                  <strong>Transaction ID: {transaction._id}</strong><br/>
                   <strong>Transaction Type: </strong>{transaction.type}<br/>
                   <strong>Owner ID: </strong>{transaction.ownerId}<br/>
                   <strong>Property ID: </strong>{transaction.propertyId}<br/>
                   <strong>Nonce: </strong>{transaction.nonce}<br/>
                   <strong>Previous Hash: </strong>{transaction.previousHash}<br/>
                   <strong>Hash: </strong>{transaction.hash}<br/>
-                  <strong>Buyer: </strong>{transaction.buyerId}<br/>
+                  {transaction.buyerId && <strong>Buyer: </strong>} {transaction.buyerId}<br/>
                 </ListGroup.Item>
           ))
         }

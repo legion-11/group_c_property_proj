@@ -69,7 +69,7 @@ const PropertiesList = props => {
         {properties.map((property) => {
           const address = `${property.country} ${property.city}, ${property.zipcode}`;
           return (
-            <Col lg="4">
+            <Col lg="6">
               <Card className="mb-3">
                 <Card.Body style={{height:170}}>
                   <h5 className="card-title">{property.name}</h5>
