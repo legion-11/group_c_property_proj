@@ -1,12 +1,13 @@
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Nav, Navbar, Row, Col, Button} from 'react-bootstrap'
+import {Container, Nav, Navbar, Row, Col, Button, NavDropdown} from 'react-bootstrap'
 import {useState} from "react";
 import {Route, Switch, BrowserRouter, Redirect} from "react-router-dom";
 import SignIn from "./components/signIn";
 import Error from "./components/404";
 import UserDataService from './services/user'
+import SignUp from "./components/signUp";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -16,8 +17,7 @@ function App() {
       .then((response) => {
         if (response.data.success) {
           setUser(response.data.user)
-        }
-        alert(response.data.msg)
+        } else {alert(response.data.msg)}
       })
       .catch((e) => {
         alert(e.message)
@@ -25,7 +25,11 @@ function App() {
   }
 
   async function logout() {
-    setUser(null)
+    UserDataService.signOut()
+      .then(()=>{setUser(null)})
+      .catch((e) => {
+        alert(e.message)
+      })
   }
 
   return (
@@ -44,12 +48,17 @@ function App() {
                 {
                   user ? (
                     <Nav>
-                      <Nav.Link onClick={logout}>Sign Out</Nav.Link>
+                      <NavDropdown title={user.firstname} id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#action/3.1">My property</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">Personal Info</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={logout}>Sign Out</NavDropdown.Item>
+                      </NavDropdown>
                     </Nav>
                   ) : (
                     <Nav>
-                        <Nav.Link href="/signIn" font-size-sm >Sign In</Nav.Link>
-                        <Nav.Link href="/signUp" font-size-sm>Sign Up</Nav.Link>
+                      <Nav.Link href="/signUp" font-size-sm >Sign Up</Nav.Link>
+                      <Button variant="outline-success" href="/signIn">Sign In</Button>
                     </Nav>
                   )
                 }
@@ -57,18 +66,6 @@ function App() {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-          {/*<section className="banner">*/}
-          {/*  <Container className="p-4">*/}
-          {/*    <Row>*/}
-          {/*      <Col sm="8">*/}
-          {/*        <h1>Welcome to the Land Chain Project</h1>*/}
-          {/*        <p>Link your property to the chain.</p>*/}
-          {/*        <hr/>*/}
-          {/*        <Button>Get Started</Button>*/}
-          {/*      </Col>*/}
-          {/*    </Row>*/}
-          {/*  </Container>*/}
-          {/*</section>*/}
         </header>
 
         <div className="container mt-3">
@@ -87,9 +84,15 @@ function App() {
               )}
             />
             <Route
+              path="/signUp"
+              render={(props) => (
+                <SignUp {...props} />
+              )}
+            />
+            <Route
               path="/404"
               render={(props) => (
-                <Error {...props} login={login}/>
+                <Error {...props}/>
               )}
             />
             <Redirect to={"/404"}/>
