@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import PropertiesDataService from '../services/properties'
 import {Link, useHistory} from "react-router-dom";
-import {Button} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 
 const ViewProperty = props => {
   const history = useHistory();
@@ -20,6 +20,39 @@ const ViewProperty = props => {
   };
 
   const [property, setProperty] = useState(initialRestaurantState)
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    retrieveTransactions()
+  }, []);
+
+
+  const retrieveTransactions = () => {
+    PropertiesDataService.getTransactionsByPropertyId(props.match.params.id)
+      .then(response => {
+        console.log(response.data);
+        setTransactions(response.data.result.reverse());
+      })
+      .catch(e => {
+        console.log(e);
+        alert(e.message);
+      });
+  };
+
+
+  const typeToString=(t)=>{
+    if (t === 0) {
+      return "Created"
+    } else if (t === 1) {
+      return "Set For Sale"
+    } else if (t === 2) {
+      return "Buy"
+    } else if (t === 3) {
+      return "Set For Rent"
+    }else if (t === 4) {
+      return "Rented"
+    }
+  }
 
   useEffect(() => {
     PropertiesDataService.getPropertyById(props.match.params.id)
@@ -72,8 +105,6 @@ const ViewProperty = props => {
                       } else {alert(res.data.msg)}
                     })
                     .catch((e)=> {
-                      alert(2)
-                      alert(e)
                       alert(e.message)
                     })
                 }}
@@ -88,6 +119,25 @@ const ViewProperty = props => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="row">
+        <h5 className="card-title">Transaction List</h5>
+        <ListGroup>
+          {
+            transactions.map((transaction) => (
+              <ListGroup.Item className="card-text">
+                <strong>Transaction Type: </strong>{transaction.type} {typeToString(transaction.type)}<br/>
+                <strong>Property ID: </strong>{transaction.propertyId}<br/>
+                <strong>Owner ID: </strong>{transaction.ownerId}<br/>
+                {transaction.buyerId && <strong>Buyer: </strong>} {transaction.buyerId}{transaction.buyerId && <br/>}
+                {transaction.price && <strong>Price: </strong>} {transaction.price}<br/>
+                <strong>Nonce: </strong>{transaction.nonce}<br/>
+                <strong>Previous Hash: </strong>{transaction.previousHash}<br/>
+                <strong>Hash: </strong>{transaction.hash}<br/>
+              </ListGroup.Item>
+            ))
+          }
+        </ListGroup>
       </div>
 
     </div>
