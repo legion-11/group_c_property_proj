@@ -1,3 +1,8 @@
+# Started the frontent guide:
+0. write "npm install" in the terminal to download all needed modules
+1. write "npm start" in the terminal to start
+2. there is no other steps
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
